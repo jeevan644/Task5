@@ -1,0 +1,7 @@
+Thiss project focuses on predicting heart disease using tree-based machine learning models—Decision Trees and Random Forests—implemented in Python with the help of Scikit-learn. The dataset used is a structured collection of medical records, including features like age, cholesterol levels, blood pressure, and others that are relevant indicators of cardiovascular health. The primary objective is to build interpretable and accurate models that can assist in early detection of heart disease.
+
+A Decision Tree Classifier is first trained and visualized to understand how the model makes predictions based on feature splits. To address the risk of overfitting, tree depth is controlled and its impact on performance is analyzed. Next, a Random Forest Classifier is implemented to enhance prediction accuracy through ensemble learning. Feature importances are evaluated to identify which medical factors contribute most significantly to the model’s decisions.
+
+Model evaluation is carried out using training/testing accuracy and 5-fold cross-validation to ensure the models generalize well on unseen data. The results show that Random Forests typically outperform a single Decision Tree in terms of both accuracy and robustness.
+
+This project demonstrates how tree-based models can be applied effectively in the healthcare domain to support diagnostic decision-making with interpretable, data-driven insights
