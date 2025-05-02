@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv(r"C:\Users\JEEVAN KUMAR\Desktop\jupyter\heart.csv")
+X = df.drop('target', axis=1)
+y = df['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+dt = DecisionTreeClassifier(random_state=42)
+dt.fit(X_train, y_train)
+
+plt.figure(figsize=(20,10))
+plot_tree(dt, filled=True, feature_names=X.columns, class_names=["No Disease", "Disease"])
+plt.show()
+
+dt_limited = DecisionTreeClassifier(max_depth=3, random_state=42)
+dt_limited.fit(X_train, y_train)
+print("Training Accuracy:", dt_limited.score(X_train, y_train))
+print("Testing Accuracy:", dt_limited.score(X_test, y_test))
+
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+print("Random Forest Training Accuracy:", rf.score(X_train, y_train))
+print("Random Forest Testing Accuracy:", rf.score(X_test, y_test))
+
+importances = rf.feature_importances_
+indices = np.argsort(importances)[::-1]
+plt.figure(figsize=(10,6))
+plt.title("Feature Importances")
+plt.bar(range(X.shape[1]), importances[indices])
+plt.xticks(range(X.shape[1]), X.columns[indices], rotation=90)
+plt.tight_layout()
+plt.show()
+
+cv_scores_dt = cross_val_score(dt_limited, X, y, cv=5)
+cv_scores_rf = cross_val_score(rf, X, y, cv=5)
+print("Decision Tree CV Accuracy:", cv_scores_dt.mean())
+print("Random Forest CV Accuracy:", cv_scores_rf.mean())
